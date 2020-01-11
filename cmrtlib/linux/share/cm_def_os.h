@@ -32,9 +32,9 @@
 #define Display unsigned int
 #endif
 
+#include <cstdlib>
 #include <cstring>
 #include "pthread.h"
-#include <malloc.h>
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +91,7 @@ typedef enum _VACMTEXTUREFILTERTYPE {
 
 inline void * CM_ALIGNED_MALLOC(size_t size, size_t alignment)
 {
-  return memalign(alignment, size);
+  return aligned_alloc(alignment, size);
 }
 
 inline void CM_ALIGNED_FREE(void * memory)

@@ -31,7 +31,6 @@
 #include "mos_util_user_interface_next.h"
 #include <sstream>
 #include <fcntl.h>     //open
-#include <malloc.h>    // For memalign
 #include <string.h>    // memset
 #include <stdlib.h>    // atoi atol
 #include <math.h>
