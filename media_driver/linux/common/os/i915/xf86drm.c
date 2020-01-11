@@ -47,13 +47,15 @@
 #include <signal.h>
 #include <time.h>
 #include <sys/types.h>
+#if defined(__GLIBC__) || defined(__linux__)
 #include <sys/sysmacros.h>
+#endif
 #include <sys/stat.h>
 #define stat_t struct stat
 #include <sys/ioctl.h>
 #include <sys/time.h>
 #include <stdarg.h>
-#ifdef HAVE_SYS_MKDEV_H
+#ifdef __sun
 # include <sys/mkdev.h> /* defines major(), minor(), and makedev() on Solaris */
 #endif
 
