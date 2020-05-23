@@ -111,3 +111,27 @@ script:
       make -j8
   - ccache -s
   - ccache -z
+
+jobs:
+  include:
+    - os: linux
+    - os: freebsd
+      compiler: clang
+      before_install:
+        - sudo pkg install -y meson pkgconf libdrm libXext libXfixes wayland
+        - sudo pkg install -y -x '^mesa($|-libs)'
+      install:
+        - sudo ln -sf /usr/local/libdata/pkgconfig /usr/local/lib/
+        - git clone https://github.com/intel/gmmlib.git
+        - (cd gmmlib && cmake -B build -G Ninja && cmake --build build && sudo cmake --install build)
+        - git clone https://github.com/intel/libva.git
+        - (cd libva && meson build && ninja -C build && sudo ninja -C build install)
+      script:
+        - ccache -s
+        - ccache -z
+        - cmake -B build -G Ninja
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+            -DBUILD_TYPE=Release -DBUILD_CMRTLIB=OFF -DMEDIA_RUN_TEST_SUITE=OFF
+        - cmake --build build
+        - ccache -s
+        - ccache -z
