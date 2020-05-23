@@ -123,8 +123,16 @@ jobs:
       install:
         - sudo ln -sf /usr/local/libdata/pkgconfig /usr/local/lib/
         - git clone https://github.com/intel/gmmlib.git
+        - | # Workaround until https://github.com/intel/gmmlib/pull/68 is merged
+          if ! fgrep -q freebsd gmmlib/.travis.yml; then
+            (cd gmmlib && git fetch origin pull/68/head:freebsd && git checkout freebsd)
+          fi
         - (cd gmmlib && cmake -B build -G Ninja && cmake --build build && sudo cmake --install build)
         - git clone https://github.com/intel/libva.git
+        - | # Workaround until https://github.com/intel/libva/pull/363 is merged
+          if ! fgrep -q freebsd libva/.travis.yml; then
+            (cd libva && git fetch origin pull/363/head:freebsd && git checkout freebsd)
+          fi
         - (cd libva && meson build && ninja -C build && sudo ninja -C build install)
       script:
         - ccache -s
