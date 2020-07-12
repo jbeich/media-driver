@@ -114,7 +114,6 @@ script:
 
 jobs:
   include:
-    - os: linux
     - os: freebsd
       compiler: clang
       before_install:
@@ -135,6 +134,7 @@ jobs:
           fi
         - (cd libva && meson build && ninja -C build && sudo ninja -C build install)
       script:
+        - mkdir -p $HOME/.ccache
         - ccache -s
         - ccache -z
         - cmake -B build -G Ninja
